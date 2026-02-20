@@ -28,7 +28,7 @@ async function loadData() {
     } catch (error) {
         console.error('Error loading data:', error);
         document.getElementById('calendar').innerHTML = 
-            '<p style="color: red;">Error loading data. Please run the scheduler first.</p>';
+            '<p style="color: red;">Error loading data. Please run the scheduler first by going on the "skipped" tab.</p>';
     }
 }
 
