@@ -58,5 +58,41 @@ def get_summary():
     except FileNotFoundError:
         return jsonify({'error': 'Data not found'}), 404
 
+@app.route('/api/run-scheduler', methods=['POST'])
+def run_scheduler():
+    """API endpoint to run the scheduler"""
+    try:
+        from data.generate_data import save_all_data
+        from scheduler import ResourceAllocator
+    
+        data_dir = os.path.join(os.path.dirname(__file__), "data")
+        save_all_data(data_dir)
+    
+        allocator = ResourceAllocator(data_dir)
+        scheduled_plan, skipped = allocator.schedule()
+    
+        os.makedirs(OUTPUT_DIR, exist_ok=True)
+        
+        with open(os.path.join(OUTPUT_DIR, 'scheduled_plan.json'), 'w') as f:
+            json.dump(scheduled_plan, f, indent=2)
+        
+        with open(os.path.join(OUTPUT_DIR, 'skipped_activities.json'), 'w') as f:
+            json.dump(skipped, f, indent=2)
+    
+        calendar_text = allocator.format_calendar(scheduled_plan, skipped)
+        with open(os.path.join(OUTPUT_DIR, 'personalized_plan.txt'), 'w', encoding='utf-8') as f:
+            f.write(calendar_text)
+        
+        return jsonify({
+            'success': True,
+            'scheduled': len(scheduled_plan),
+            'skipped': len(skipped)
+        })
+    except Exception as e:
+        return jsonify({
+            'success': False,
+            'error': str(e)
+        }), 500
+
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)
