@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skipped Activities</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <h1>🏥 ELYX Health Planner</h1>
+            <div class="nav-links">
+                <a href="/">Calendar</a>
+                <a href="/skipped" class="active">Skipped Activities</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="skipped-summary" id="skippedSummary">
+        </div>
+
+        <div class="filters">
+            <input type="text" id="searchInput" placeholder="Search skipped activities...">
+            <select id="reasonFilter">
+                <option value="">All Reasons</option>
+            </select>
+        </div>
+
+        <div id="skippedList" class="skipped-list">
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='skipped.js') }}"></script>
+</body>
+</html>
