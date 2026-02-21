@@ -4,6 +4,8 @@ A resource allocation and scheduling system for personalized health plans that m
 
 ## System Assumptions
 
+Currently, this project does not implement user-specific state management. The generated schedule is stored in the server’s project directory, so if one user triggers scheduling, the resulting schedule becomes visible to all users accessing the application.
+
 ### 1. Time and Scheduling
 
 - **Scheduling Period**: Fixed 3-month period (July 1 - September 30, 2025)
